@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Veltech College — Login</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#0b63d6; /* change to Veltech brand color if needed */
+      --muted:#6b7280;
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#eef6ff 0%,var(--bg) 80%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:#111827;
+    }
+
+    .container{
+      width:100%;
+      max-width:420px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:0 10px 30px rgba(12,22,40,0.08);
+      border:1px solid rgba(13,38,76,0.04);
+    }
+
+    .logo {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:18px;
+    }
+    .logo img{
+      height:56px;
+      width:auto;
+      object-fit:contain;
+      border-radius:8px;
+    }
+    .brand{
+      line-height:1;
+    }
+    .brand .title{font-weight:600;font-size:18px}
+    .brand .subtitle{font-size:12px;color:var(--muted)}
+
+    h1{margin:8px 0 18px;font-size:20px}
+
+    form{display:grid;gap:12px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="email"], input[type="password"]{
+      width:100%;
+      padding:12px 12px;
+      border-radius:10px;
+      border:1px solid #e6eaf0;
+      font-size:15px;
+      background:#fff;
+      outline:none;
+      transition:box-shadow .12s, border-color .12s;
+    }
+    input:focus{
+      border-color:var(--accent);
+      box-shadow:0 6px 18px rgba(11,99,214,0.08);
+    }
+
+    .row {display:flex;align-items:center;justify-content:space-between}
+    .checkbox{
+      display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;
+    }
+    .btn{
+      display:inline-block;
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      background:var(--accent);
+      color:white;
+      border:0;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .btn:active{transform:translateY(1px)}
+    .link{font-size:13px;color:var(--accent);text-decoration:none}
+    .helper{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+
+    /* small text under inputs */
+    .input-wrap{position:relative}
+    .toggle-pass{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      background:transparent;border:0;color:var(--muted);
+      cursor:pointer;padding:6px;font-size:13px;
+    }
+
+    @media (max-width:420px){
+      .card{padding:20px}
+      .logo img{height:48px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="region" aria-labelledby="login-heading">
+      <div class="logo" aria-hidden="false">
+        <!-- Replace 'veltech-logo.png' with your actual logo file (relative path or URL) -->
+        <img src="veltech-logo.png" alt="Veltech College logo" onerror="this.style.display='none'"/>
+        <div class="brand">
+          <div class="title">Veltech College</div>
+          <div class="subtitle">Student / Staff Portal</div>
+        </div>
+      </div>
+
+      <h1 id="login-heading">Sign in to your account</h1>
+
+      <form id="loginForm" novalidate>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@veltech.edu" required
+                 autocomplete="email" inputmode="email" />
+        </div>
+
+        <div class="input-wrap">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="••••••••" required
+                 autocomplete="current-password" />
+          <button type="button" class="toggle-pass" aria-label="Show password" id="togglePass">Show</button>
+        </div>
+
+        <div class="row">
+          <label class="checkbox"><input type="checkbox" id="remember" name="remember" /> Remember me</label>
+          <a class="link" href="#" id="forgot">Forgot?</a>
+        </div>
+
+        <button class="btn" type="submit">Log in</button>
+      </form>
+
+      <div class="helper">Need an account? <a class="link" href="#">Contact admin</a></div>
+    </div>
+  </div>
+
+  <script>
+    // Small client-side validation and password toggle.
+    (function(){
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const pass = document.getElementById('password');
+      const toggle = document.getElementById('togglePass');
+
+      toggle.addEventListener('click', () => {
+        if (pass.type === 'password') {
+          pass.type = 'text';
+          toggle.textContent = 'Hide';
+          toggle.setAttribute('aria-label','Hide password');
+        } else {
+          pass.type = 'password';
+          toggle.textContent = 'Show';
+          toggle.setAttribute('aria-label','Show password');
+        }
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Basic checks
+        if (!email.value.trim()) {
+          alert('Please enter your email.');
+          email.focus(); return;
+        }
+        if (!pass.value) {
+          alert('Please enter your password.');
+          pass.focus(); return;
+        }
+
+        // Example: instead of actually sending credentials here, you'd submit to your server.
+        // Replace the following with an actual POST to your auth endpoint.
+        const payload = {
+          email: email.value.trim(),
+          password: pass.value,
+          remember: !!document.getElementById('remember').checked
+        };
+
+        // For demo purposes only:
+        console.log('Login payload', payload);
+        alert('Login attempted (demo). Replace client-side code with real authentication request.');
+
+        // Example how you'd send it (commented):
+        /*
+        fetch('/api/login', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        }).then(r=>r.json()).then(data=>{
+          // handle login success/failure
+        });
+        */
+      });
+    })();
+  </script>
+</body>
+</html>
