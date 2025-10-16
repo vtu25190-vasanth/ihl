@@ -3,212 +3,247 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Veltech College — Login</title>
+  <title>MySocial — Sign in</title>
   <style>
     :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --accent:#0b63d6; /* change to Veltech brand color if needed */
+      --bg:#f3f6fb;
+      --card:#fff;
+      --accent:#1877f2; /* blue-ish but not a brand copy */
       --muted:#6b7280;
+      --success:#16a34a;
+      --danger:#ef4444;
       --radius:12px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background:linear-gradient(180deg,#eef6ff 0%,var(--bg) 80%);
+      background:linear-gradient(180deg, #eef6ff 0%, var(--bg) 100%);
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:24px;
+      padding:28px;
       color:#111827;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
     .container{
       width:100%;
-      max-width:420px;
+      max-width:980px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
     }
 
+    .hero{
+      padding:36px;
+    }
+    .hero h1{
+      margin:0 0 12px 0;
+      font-size:28px;
+      line-height:1.05;
+    }
+    .hero p{margin:0;color:var(--muted);font-size:15px}
     .card{
       background:var(--card);
       border-radius:var(--radius);
+      box-shadow:0 6px 30px rgba(15,23,42,0.08);
       padding:28px;
-      box-shadow:0 10px 30px rgba(12,22,40,0.08);
-      border:1px solid rgba(13,38,76,0.04);
     }
 
-    .logo {
+    form {display:flex;flex-direction:column;gap:12px}
+    label{font-size:13px;color:var(--muted)}
+    .input{
       display:flex;
-      gap:12px;
       align-items:center;
-      margin-bottom:18px;
-    }
-    .logo img{
-      height:56px;
-      width:auto;
-      object-fit:contain;
-      border-radius:8px;
-    }
-    .brand{
-      line-height:1;
-    }
-    .brand .title{font-weight:600;font-size:18px}
-    .brand .subtitle{font-size:12px;color:var(--muted)}
-
-    h1{margin:8px 0 18px;font-size:20px}
-
-    form{display:grid;gap:12px}
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
-    input[type="email"], input[type="password"]{
-      width:100%;
-      padding:12px 12px;
+      gap:8px;
+      border:1px solid #e6eef7;
+      padding:10px 12px;
       border-radius:10px;
-      border:1px solid #e6eaf0;
-      font-size:15px;
       background:#fff;
-      outline:none;
-      transition:box-shadow .12s, border-color .12s;
     }
-    input:focus{
-      border-color:var(--accent);
-      box-shadow:0 6px 18px rgba(11,99,214,0.08);
+    .input input{
+      border:0;
+      outline:0;
+      font-size:15px;
+      flex:1;
+      background:transparent;
     }
-
-    .row {display:flex;align-items:center;justify-content:space-between}
-    .checkbox{
-      display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
     .btn{
-      display:inline-block;
-      width:100%;
-      padding:12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 14px;
       border-radius:10px;
-      background:var(--accent);
-      color:white;
-      border:0;
       font-weight:600;
       cursor:pointer;
-      font-size:15px;
+      border:0;
     }
-    .btn:active{transform:translateY(1px)}
-    .link{font-size:13px;color:var(--accent);text-decoration:none}
-    .helper{font-size:13px;color:var(--muted);text-align:center;margin-top:10px}
+    .btn-primary{
+      background:linear-gradient(180deg,var(--accent),#125fd8);
+      color:#fff;
+      box-shadow:0 6px 18px rgba(24,119,242,0.18);
+    }
+    .btn-ghost{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(24,119,242,0.12);
+    }
+    .small{font-size:13px;color:var(--muted)}
+    .helper{font-size:13px;color:var(--muted);margin-top:6px}
 
-    /* small text under inputs */
-    .input-wrap{position:relative}
-    .toggle-pass{
-      position:absolute;
-      right:10px;
-      top:50%;
-      transform:translateY(-50%);
-      background:transparent;border:0;color:var(--muted);
-      cursor:pointer;padding:6px;font-size:13px;
+    .status {
+      margin-top:8px;
+      font-size:13px;
+      min-height:20px;
+    }
+    .status.success{color:var(--success)}
+    .status.error{color:var(--danger)}
+
+    @media (max-width:880px){
+      .container{grid-template-columns:1fr; max-width:520px}
     }
 
-    @media (max-width:420px){
-      .card{padding:20px}
-      .logo img{height:48px}
-    }
+    /* simple focus styles for accessibility */
+    input:focus { outline: 3px solid rgba(24,119,242,0.12); border-color: rgba(24,119,242,0.28); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card" role="region" aria-labelledby="login-heading">
-      <div class="logo" aria-hidden="false">
-        <!-- Replace 'veltech-logo.png' with your actual logo file (relative path or URL) -->
-        <img src="veltech-logo.png" alt="Veltech College logo" onerror="this.style.display='none'"/>
-        <div class="brand">
-          <div class="title">Veltech College</div>
-          <div class="subtitle">Student / Staff Portal</div>
-        </div>
+  <main class="container" aria-labelledby="title">
+    <section class="hero">
+      <h1 id="title">Welcome back — sign in to MySocial</h1>
+      <p>Securely sign in to continue to your dashboard. This is a demo page — do not enter real credentials for other services.</p>
+
+      <div style="height:18px"></div>
+
+      <div class="card" style="max-width:560px;">
+        <h2 style="margin:0 0 8px 0;font-size:16px">Why use this demo?</h2>
+        <p class="small">This example shows a common login UI pattern with accessible inputs, client-side validation, and a placeholder for safe server-side authentication.</p>
       </div>
+    </section>
 
-      <h1 id="login-heading">Sign in to your account</h1>
-
+    <aside class="card" aria-label="Sign in form">
       <form id="loginForm" novalidate>
         <div>
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@veltech.edu" required
-                 autocomplete="email" inputmode="email" />
+          <label for="email">Email or username</label>
+          <div class="input" role="group" aria-label="Email or username">
+            <input id="email" name="email" type="text" inputmode="email" autocomplete="username" placeholder="you@example.com" required />
+          </div>
         </div>
 
-        <div class="input-wrap">
+        <div>
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" placeholder="••••••••" required
-                 autocomplete="current-password" />
-          <button type="button" class="toggle-pass" aria-label="Show password" id="togglePass">Show</button>
+          <div class="input" role="group" aria-label="Password">
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="8" />
+          </div>
+          <div class="helper">Minimum 8 characters for demo purposes.</div>
         </div>
 
-        <div class="row">
-          <label class="checkbox"><input type="checkbox" id="remember" name="remember" /> Remember me</label>
-          <a class="link" href="#" id="forgot">Forgot?</a>
+        <div class="actions" style="margin-top:6px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)">
+            <input id="remember" name="remember" type="checkbox" />
+            Remember me
+          </label>
+          <a href="#" class="small" onclick="alert('Demo only: implement password recovery flow on your server.');return false">Forgot password?</a>
         </div>
 
-        <button class="btn" type="submit">Log in</button>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button type="submit" class="btn btn-primary" id="signInBtn">Sign in</button>
+          <button type="button" class="btn btn-ghost" id="demoBtn">Demo credentials</button>
+        </div>
+
+        <div id="status" class="status" aria-live="polite"></div>
+
+        <div style="margin-top:14px;font-size:13px;color:var(--muted)">
+          New to MySocial? <a href="#" onclick="alert('Demo only: replace with your signup flow.');return false">Create an account</a>
+        </div>
       </form>
-
-      <div class="helper">Need an account? <a class="link" href="#">Contact admin</a></div>
-    </div>
-  </div>
+    </aside>
+  </main>
 
   <script>
-    // Small client-side validation and password toggle.
-    (function(){
-      const form = document.getElementById('loginForm');
-      const email = document.getElementById('email');
-      const pass = document.getElementById('password');
-      const toggle = document.getElementById('togglePass');
+    // Demo-only login logic. Replace fetch() logic with real server authentication.
+    const form = document.getElementById('loginForm');
+    const status = document.getElementById('status');
+    const signInBtn = document.getElementById('signInBtn');
+    const demoBtn = document.getElementById('demoBtn');
 
-      toggle.addEventListener('click', () => {
-        if (pass.type === 'password') {
-          pass.type = 'text';
-          toggle.textContent = 'Hide';
-          toggle.setAttribute('aria-label','Hide password');
+    // Demo credentials (only for local testing)
+    const DEMO = { email: 'demo@mysocial.test', password: 'password123' };
+
+    demoBtn.addEventListener('click', () => {
+      document.getElementById('email').value = DEMO.email;
+      document.getElementById('password').value = DEMO.password;
+      status.textContent = 'Filled demo credentials — click Sign in.';
+      status.className = 'status';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'status';
+
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      // client-side validation
+      if (!email) {
+        status.textContent = 'Please enter your email or username.';
+        status.className = 'status error';
+        form.email.focus();
+        return;
+      }
+      if (password.length < 8) {
+        status.textContent = 'Password must be at least 8 characters.';
+        status.className = 'status error';
+        form.password.focus();
+        return;
+      }
+
+      // disable button while "authenticating"
+      signInBtn.disabled = true;
+      signInBtn.textContent = 'Signing in…';
+
+      try {
+        // ===== DEMO: simulate network auth =====
+        await new Promise(r => setTimeout(r, 700)); // simulate latency
+
+        // In a real app, send credentials securely to your server:
+        // const resp = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, password}) });
+        // const data = await resp.json(); // handle errors, tokens, redirects, etc.
+        // This demo will "succeed" only for the DEMO credentials.
+
+        if (email === DEMO.email && password === DEMO.password) {
+          status.textContent = 'Signed in (demo). Redirecting to dashboard…';
+          status.className = 'status success';
+          // In real app: store secure cookies or tokens returned by server, then redirect.
+          setTimeout(() => {
+            // demo redirect
+            alert('Demo: would redirect to /dashboard');
+          }, 700);
         } else {
-          pass.type = 'password';
-          toggle.textContent = 'Show';
-          toggle.setAttribute('aria-label','Show password');
+          status.textContent = 'Incorrect credentials (demo). Use "Demo credentials" or implement server auth.';
+          status.className = 'status error';
         }
-      });
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Basic checks
-        if (!email.value.trim()) {
-          alert('Please enter your email.');
-          email.focus(); return;
-        }
-        if (!pass.value) {
-          alert('Please enter your password.');
-          pass.focus(); return;
-        }
-
-        // Example: instead of actually sending credentials here, you'd submit to your server.
-        // Replace the following with an actual POST to your auth endpoint.
-        const payload = {
-          email: email.value.trim(),
-          password: pass.value,
-          remember: !!document.getElementById('remember').checked
-        };
-
-        // For demo purposes only:
-        console.log('Login payload', payload);
-        alert('Login attempted (demo). Replace client-side code with real authentication request.');
-
-        // Example how you'd send it (commented):
-        /*
-        fetch('/api/login', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        }).then(r=>r.json()).then(data=>{
-          // handle login success/failure
-        });
-        */
-      });
-    })();
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Network error. Try again later.';
+        status.className = 'status error';
+      } finally {
+        signInBtn.disabled = false;
+        signInBtn.textContent = 'Sign in';
+      }
+    });
   </script>
 </body>
 </html>
